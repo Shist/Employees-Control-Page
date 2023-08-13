@@ -2,9 +2,9 @@ import EmployeesListItem from "../employees-list-item/employees-list-item";
 
 import "./employees-list.css";
 
-const EmployeesList = (props) => {
-  const uiElements = props.data.map((item) => {
-    return <EmployeesListItem name={item.name} salary={item.salary} />;
+const EmployeesList = ({ data }) => {
+  const uiElements = data.map((item) => {
+    return <EmployeesListItem {...item} />;
   });
 
   return <ul className="app-list list-group">{uiElements}</ul>;
