@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       data: [
         { id: 1, name: "Susan", salary: 700, increase: false },
-        { id: 2, name: "Mike", salary: 1500, increase: true },
+        { id: 2, name: "Mike", salary: 1500, increase: false },
         { id: 3, name: "Daniel", salary: 2100, increase: false },
       ],
     };
@@ -25,6 +25,20 @@ class App extends Component {
       return {
         data: data.filter((item) => item.id !== id),
       };
+    });
+  };
+
+  addItem = (e, name, salary) => {
+    e.preventDefault();
+    this.setState(({ data }) => {
+      const dataCopy = [...data];
+      dataCopy.push({
+        id: data[data.length - 1].id + 1,
+        name: name,
+        salary: salary,
+        increase: false,
+      });
+      return { data: dataCopy };
     });
   };
 
@@ -39,7 +53,7 @@ class App extends Component {
         </div>
 
         <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
-        <EmployeesAddForm />
+        <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );
   }
