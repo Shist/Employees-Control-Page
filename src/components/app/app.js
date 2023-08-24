@@ -13,9 +13,9 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { id: 1, name: "Susan", salary: 700, increase: false },
-        { id: 2, name: "Mike", salary: 1500, increase: false },
-        { id: 3, name: "Daniel", salary: 2100, increase: false },
+        { id: 1, name: "Susan", salary: 700, increase: false, rise: true },
+        { id: 2, name: "Mike", salary: 1500, increase: true, rise: false },
+        { id: 3, name: "Daniel", salary: 2100, increase: false, rise: false },
       ],
     };
   }
@@ -37,8 +37,41 @@ class App extends Component {
         name: name,
         salary: salary,
         increase: false,
+        rise: false,
       });
       return { data: dataCopy };
+    });
+  };
+
+  onToggleIncrease = (id) => {
+    this.setState(({ data }) => {
+      const index = data.findIndex((item) => item.id === id);
+
+      const oldItem = data[index];
+      const newItem = { ...oldItem, increase: !oldItem.increase };
+      const newArr = [
+        ...data.slice(0, index),
+        newItem,
+        ...data.slice(index + 1),
+      ];
+
+      return { data: newArr };
+    });
+  };
+
+  onToggleRise = (id) => {
+    this.setState(({ data }) => {
+      const index = data.findIndex((item) => item.id === id);
+
+      const oldItem = data[index];
+      const newItem = { ...oldItem, rise: !oldItem.rise };
+      const newArr = [
+        ...data.slice(0, index),
+        newItem,
+        ...data.slice(index + 1),
+      ];
+
+      return { data: newArr };
     });
   };
 
@@ -52,7 +85,12 @@ class App extends Component {
           <AppFilter />
         </div>
 
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
+        <EmployeesList
+          data={this.state.data}
+          onDelete={this.deleteItem}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleRise={this.onToggleRise}
+        />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );
