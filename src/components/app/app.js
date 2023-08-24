@@ -30,17 +30,19 @@ class App extends Component {
 
   addItem = (e, name, salary) => {
     e.preventDefault();
-    this.setState(({ data }) => {
-      const dataCopy = [...data];
-      dataCopy.push({
-        id: data[data.length - 1].id + 1,
-        name: name,
-        salary: salary,
-        increase: false,
-        rise: false,
+    if (name.trim() && salary.trim()) {
+      this.setState(({ data }) => {
+        const dataCopy = [...data];
+        dataCopy.push({
+          id: data[data.length - 1].id + 1,
+          name: name,
+          salary: salary,
+          increase: false,
+          rise: false,
+        });
+        return { data: dataCopy };
       });
-      return { data: dataCopy };
-    });
+    }
   };
 
   onToggleProp = (id, prop) => {
